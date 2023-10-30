@@ -49,6 +49,7 @@ class CategoryController extends Controller
         $category = Category::where('id', $id)->firstOrFail();
 
         $category->name = $validatedData['name'];
+        $category->save();
 
         return response([
             "message" => "Category Updated",

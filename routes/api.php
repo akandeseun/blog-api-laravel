@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -46,5 +47,16 @@ Route::controller(CategoryController::class)->group(function () {
         Route::post('/category', 'store');
         Route::patch('/category/{id}', 'update');
         Route::delete('/category/{id}', 'destroy');
+    });
+});
+
+// Posts Routes
+Route::controller(PostController::class)->group(function () {
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::get('/post', 'index');
+        Route::get('/post/{id}', 'show');
+        Route::post('/post', 'store');
+        Route::patch('/post/{id}', 'update');
+        Route::delete('/post/{id}', 'destroy');
     });
 });
