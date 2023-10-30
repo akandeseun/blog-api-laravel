@@ -20,5 +20,51 @@ class TagController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string',
         ]);
+
+        $tag = new Tag;
+        $tag->name = $validatedData['name'];
+
+        $tag->save();
+
+        return response([
+            "message" => "Tag Created",
+            "data" => $tag
+        ], 201);
+    }
+
+    public function show($id)
+    {
+        $tag = Tag::where('id', $id)->firstOrFail();
+
+        return response([
+            "data" => $tag
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+        ]);
+
+        $tag = Tag::where('id', $id)->firstOrFail();
+
+        $tag->name = $validatedData['name'];
+        $tag->save();
+
+        return response([
+            "message" => "Tag Updated",
+            "data" => $tag
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $tag = Tag::where('id', $id)->firstOrFail();
+        $tag->delete();
+        // $tag->save();
+        return response([
+            "message" => "Tag Deleted",
+        ]);
     }
 }

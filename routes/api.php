@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,4 +25,26 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register');
     Route::post('/login', 'login');
+});
+
+// Tag Routes
+Route::controller(TagController::class)->group(function () {
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::get('/tag', 'index');
+        Route::get('/tag/{id}', 'show');
+        Route::post('/tag', 'store');
+        Route::patch('/tag/{id}', 'update');
+        Route::delete('/tag/{id}', 'destroy');
+    });
+});
+
+// Category Routes
+Route::controller(CategoryController::class)->group(function () {
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::get('/category', 'index');
+        Route::get('/category/{id}', 'show');
+        Route::post('/category', 'store');
+        Route::patch('/category/{id}', 'update');
+        Route::delete('/category/{id}', 'destroy');
+    });
 });
