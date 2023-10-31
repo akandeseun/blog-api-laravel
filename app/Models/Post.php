@@ -22,4 +22,9 @@ class Post extends Model
     {
         return $this->hasOne(Category::class);
     }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
