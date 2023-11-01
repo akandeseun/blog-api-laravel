@@ -19,7 +19,7 @@ class ForgotPasswordController extends Controller
         ]);
 
         $status = Password::sendResetLink(
-            $validatedData['email']
+            $validatedData
         );
 
         $outcome = $status === Password::RESET_LINK_SENT;
@@ -33,17 +33,26 @@ class ForgotPasswordController extends Controller
         // ? back()->with(['status' => __($status)]) : back()->withErrors(['email' => __($status)])
 
         return response([
-            "data" => $outcome
+            "data" => $outcome,
+            "message" => "Password reset link sent"
         ]);
+    }
+
+    public function passwordLink()
+    {
+        return response('reset password');
     }
 
     public function resetPassword(Request $request)
     {
+        // request()->merge(['token' => $request->query('token')]);
+
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
             'password' => 'required|min:8|confirmed'
         ]);
+
 
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
@@ -65,5 +74,9 @@ class ForgotPasswordController extends Controller
                 "data" => "something went wrong"
             ]);
         }
+
+        return response([
+            "message" => "Password reset successfully"
+        ]);
     }
 }

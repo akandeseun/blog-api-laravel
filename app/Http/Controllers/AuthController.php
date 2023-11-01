@@ -34,7 +34,8 @@ class AuthController extends Controller
 
         return response([
             "message" => "User created",
-            "token" => $token
+            "token" => $token,
+            "info" => "A verify mail link has been sent to your mail address"
         ]);
     }
 
@@ -47,8 +48,8 @@ class AuthController extends Controller
         ]);
 
         $credentials = [
-            'email' => $request->email,
-            'password' => $request->password
+            'email' => $validatedData['email'],
+            'password' => $validatedData['password']
         ];
 
         if (!Auth::attempt($credentials)) {
@@ -67,10 +68,21 @@ class AuthController extends Controller
         ]);
     }
 
-    // public function verifyEmail(EmailVerificationRequest $request)
-    // {
-    //     $request->fulfill();
+    public function verifyEmail(EmailVerificationRequest $request)
+    {
+        $request->fulfill();
 
-    //     return 
-    // }
+        return response([
+            "message" => "Mail Verified"
+        ]);
+    }
+
+    public function resendVerificationEmail(Request $request)
+    {
+        $request->user()->sendEmailVerificationNotification();
+
+        return response([
+            "message" => "Verification link sent"
+        ]);
+    }
 }

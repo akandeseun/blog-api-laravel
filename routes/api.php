@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -27,12 +28,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register');
     Route::post('/login', 'login');
+
+    // Verify Email
+    Route::post('/email/verification-notification', 'resendVerificationEmail')->middleware(['auth:sanctum'])->name('verification.send');
+
+    // Resend Verification Mail
+    Route::get('/email/verify/{id}/{hash}', 'verifyEmail')->middleware(['auth:sanctum'])->name('verification.verify');
 });
 
-// Verify Email
-Route::get('emial/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-});
+
 
 
 // Tag Routes
@@ -66,4 +70,12 @@ Route::controller(PostController::class)->group(function () {
         Route::patch('/post/{id}', 'update');
         Route::delete('/post/{id}', 'destroy');
     });
+});
+
+
+// Forgot Password Routes
+Route::controller(ForgotPasswordController::class)->group(function () {
+    Route::post('/forgot-password', 'sendResetLink')->name('password.email');
+    Route::get('/reset-password/{token}', 'passwordLink')->name('password.reset');
+    Route::post('/reset-password', 'resetPassword')->name('password.update');
 });
