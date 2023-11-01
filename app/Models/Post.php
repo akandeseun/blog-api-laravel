@@ -11,7 +11,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'excerpt', 'body'];
+    protected $fillable = ['title', 'body', 'tag_id', 'category_id'];
 
     public function tags(): HasMany
     {

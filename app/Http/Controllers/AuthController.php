@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -25,6 +27,10 @@ class AuthController extends Controller
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
+
+
+        // sends users a verify email link
+        event(new Registered($user));
 
         return response([
             "message" => "User created",
@@ -60,4 +66,11 @@ class AuthController extends Controller
             ]
         ]);
     }
+
+    // public function verifyEmail(EmailVerificationRequest $request)
+    // {
+    //     $request->fulfill();
+
+    //     return 
+    // }
 }

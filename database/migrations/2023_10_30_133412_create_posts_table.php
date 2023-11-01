@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Category;
-use App\Models\Comment;
 use App\Models\Tag;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,7 +16,6 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('excerpt');
             $table->text('body');
             $table->foreignIdFor(Tag::class);
             $table->foreignIdFor(Category::class);
