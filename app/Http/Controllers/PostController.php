@@ -19,13 +19,15 @@ class PostController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string',
             'body' => 'required|string',
+            'category_id' => 'required|integer',
+            'tag_id' => 'required|integer',
         ]);
 
         $post = new Post;
         $post->title = trim($validatedData['title']);
         $post->body = trim($validatedData['body']);
-        $post->category_id = $request->category_id;
-        $post->tag_id = $request->tag_id;
+        $post->category_id = $validatedData['category_id'];
+        $post->tag_id = $validatedData['tag_id'];
 
         $post->save();
 
@@ -40,7 +42,7 @@ class PostController extends Controller
         $post = Post::where('id', $id)->firstOrFail();
 
         return response([
-            "data" => $post->category
+            "data" => $post
         ]);
     }
 

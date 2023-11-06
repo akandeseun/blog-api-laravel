@@ -12,14 +12,4 @@ class Comment extends Model
 
 
     protected $fillable = ['body'];
-
-    public function post(): BelongsTo
-    {
-        return $this->belongsTo(Post::class);
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 }
