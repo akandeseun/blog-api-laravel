@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+// Route::get('/fetch-url/post', [CommentController::class, 'getUrl']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -78,4 +81,14 @@ Route::controller(ForgotPasswordController::class)->group(function () {
     Route::post('/forgot-password', 'sendResetLink')->name('password.email');
     Route::get('/reset-password/{token}', 'passwordLink')->name('password.reset');
     Route::post('/reset-password', 'resetPassword')->name('password.update');
+});
+
+
+// Comment Routes
+Route::controller(CommentController::class)->group(function () {
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::get('/comment', 'index');
+        Route::post('/comment', 'store');
+        Route::get('/comment/{id}', 'show');
+    });
 });

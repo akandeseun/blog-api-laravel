@@ -10,7 +10,6 @@ class CommentController extends Controller
     public function index()
     {
         $comments = Comment::all();
-
         return response(["data" => $comments]);
     }
 
@@ -18,14 +17,21 @@ class CommentController extends Controller
     {
         $validatedData = $request->validate([
             'body' => 'required|string',
-            'post_id' => 'required|string',
+            'type' => 'required|in:post,comment',
+            'commentable_id' => 'required|integer'
         ]);
 
         $comment = new Comment;
         $comment->body = trim($validatedData['body']);
-        $comment->post_id = $validatedData['post_id'];
         $comment->user_id = $request->user()->id;
 
+        if ($validatedData['type'] === 'post') {
+            $comment->commentable_type = 'App\Models\Post';
+        } else {
+            $comment->commentable_type = 'App\Models\Comment';
+        }
+
+        $comment->commentable_id = $validatedData['commentable_id'];
         $comment->save();
 
         return response([
@@ -38,7 +44,7 @@ class CommentController extends Controller
         $comment = Comment::where('id', $id)->firstOrFail();
 
         return response([
-            "data" => $comment
+            "data" => $comment->load(['comments.comments'])
         ]);
     }
 
@@ -64,6 +70,15 @@ class CommentController extends Controller
         $comment->delete();
         return response([
             "message" => "Comment Deleted",
+        ]);
+    }
+
+
+    // Test
+    public function getUrl()
+    {
+        return response([
+            "data" => url()->current()
         ]);
     }
 }

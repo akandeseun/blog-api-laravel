@@ -31,6 +31,8 @@ class PostController extends Controller
 
         $post->save();
 
+
+
         return response([
             "message" => "Post Created",
             "data" => $post
@@ -42,7 +44,7 @@ class PostController extends Controller
         $post = Post::where('id', $id)->firstOrFail();
 
         return response([
-            "data" => $post
+            "data" => $post->comments
         ]);
     }
 

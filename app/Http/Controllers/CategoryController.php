@@ -36,7 +36,7 @@ class CategoryController extends Controller
         $category = Category::where('id', $id)->firstOrFail();
 
         return response([
-            "data" => $category->posts
+            "data" => $category
         ]);
     }
 

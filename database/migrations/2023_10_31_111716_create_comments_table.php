@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('body');
             // $table->foreign('user_id')->references('id')->on('users');
             $table->foreignIdFor(User::class);
-            $table->integer('commentable_id');
-            $table->string('commentable_type');
+            // $table->integer('commentable_id');
+            // $table->string('commentable_type');
+            $table->morphs('commentable');
             $table->timestamps();
         });
     }
