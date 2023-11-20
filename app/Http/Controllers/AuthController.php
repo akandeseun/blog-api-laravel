@@ -71,9 +71,11 @@ class AuthController extends Controller
     public function verifyEmail(EmailVerificationRequest $request)
     {
         $request->fulfill();
+        $user = $request->user();
 
         return response([
-            "message" => "Mail Verified"
+            "message" => "Mail Verified",
+            "user" => $user
         ]);
     }
 

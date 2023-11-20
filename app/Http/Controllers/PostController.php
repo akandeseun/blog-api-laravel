@@ -9,7 +9,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::with('comments')->get();
 
         return response(["data" => $posts]);
     }
@@ -41,10 +41,10 @@ class PostController extends Controller
 
     public function show($id)
     {
-        $post = Post::where('id', $id)->firstOrFail();
+        $post = Post::with('comments')->where('id', $id)->firstOrFail();
 
         return response([
-            "data" => $post->comments
+            "data" => $post
         ]);
     }
 

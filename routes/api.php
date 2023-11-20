@@ -90,5 +90,7 @@ Route::controller(CommentController::class)->group(function () {
         Route::get('/comment', 'index');
         Route::post('/comment', 'store');
         Route::get('/comment/{id}', 'show');
+        Route::patch('/comment/{id}', 'update');
+        Route::delete('/comment/{id}', 'destroy');
     });
 });
