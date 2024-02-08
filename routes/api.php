@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
@@ -94,3 +95,5 @@ Route::controller(CommentController::class)->group(function () {
         Route::delete('/comment/{id}', 'destroy');
     });
 });
+
+Route::post('/upload', [FileController::class, 'importTwo']);
